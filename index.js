@@ -16,6 +16,7 @@ const db = mysql.createConnection(
   },
   console.log("Connected to the company_db!")
 );
+//inquirer prompts to start interactivity
 inquirer
   .prompt([
     {
@@ -33,6 +34,7 @@ inquirer
       ],
     },
   ])
+//depending on the choice made, an action will occur
   .then((data) => {
     if (data.list === "View all departments") {
       db.query("SELECT * FROM department", function (err, results) {
