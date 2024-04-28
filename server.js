@@ -21,5 +21,16 @@ const db = mysql.createConnection(
   console.log("Connected to the company_db!")
 );
 
+db.query("SELECT * FROM department", function (err, results) {
+    console.table(results);
+});
+
+db.query("SELECT * FROM role", function (err, results) {
+    console.table(results);
+});
+
+db.query("SELECT * FROM employee", function (err, results) {
+    console.table(results);
+});
 
 app.listen(PORT, () => console.log("Server Connected"));
