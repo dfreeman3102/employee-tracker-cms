@@ -1,13 +1,14 @@
 //initialize sequelize
 const Sequelize = require("sequelize");
 //enable .env access
-require("dotenv").config();
+const dotenv = require("dotenv").config();
+const {dbNAME, dbPASSWORD, dbUSER} = process.env;
+
 //use env variables to connect to database
-const {DB_NAME, DB_PASSWORD, DB_USER} = process.env;
 const sequelize = new Sequelize(
-    DB_NAME,
-    DB_PASSWORD,
-    DB_USER,
+    dbNAME,
+    dbUSER,
+    dbPASSWORD,
     {
         host: "localhost",
         dialect: "mysql",
@@ -15,4 +16,4 @@ const sequelize = new Sequelize(
     }
 );
 
-module.exports= sequelize;
+module.exports = sequelize;
