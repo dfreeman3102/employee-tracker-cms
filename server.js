@@ -1,6 +1,5 @@
-//adding inquirer, express, mysql2, and sequelize
+//adding express, mysql2, and sequelize
 const express = require("express");
-const inquirer = require("inquirer");
 const mysql = require("mysql2");
 const sequelize = require("./config/connection.js");
 //initializing a port and express functions
