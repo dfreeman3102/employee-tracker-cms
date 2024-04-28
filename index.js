@@ -92,7 +92,8 @@ function addDept(){
                 type:"number",
                 name:"salary",
                 message: "Type the salary for this role.",
-                //this validation function states that if the input is not a number it cannot be validated
+                //this validation function states that if the input cannot be parsed into a number,
+                //it is not a number it cannot be validated
                 validate: function(input){
                     return !isNaN(parseInt(input))  || "Must be a number"
                 }
