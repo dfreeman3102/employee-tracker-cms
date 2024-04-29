@@ -197,7 +197,10 @@ function updateRole() {
         return !isNaN(parseInt(input)) || "Must be a number";
       },
     },
-  ]);
+  ])
+  .then((data) =>{
+    db.query(`UPDATE employee SET role_id = ${data.roleID}  WHERE id = ${data.empID}`)
+  })
 }
 
 start();
