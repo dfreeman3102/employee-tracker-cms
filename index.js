@@ -39,19 +39,13 @@ function start() {
     .then((data) => {
       switch (data.action) {
         case "View all departments":
-          db.query("SELECT * FROM department", function (err, results) {
-            console.table(results);
-          });
+          viewDept();
           break;
         case "View all roles":
-          db.query("SELECT * FROM role", function (err, results) {
-            console.table(results);
-          });
+          viewRole();
           break;
         case "View all employees":
-          db.query("SELECT * FROM employee", function (err, results) {
-            console.table(results);
-          });
+          viewEmp();
           break;
         case "Add a department":
           addDept();
@@ -68,6 +62,27 @@ function start() {
       }
     });
 }
+//function for handling viewDept
+function viewDept(){
+    db.query("SELECT * FROM department", function (err, results) {
+        console.table(results);
+        start();
+      });
+};
+//function for handling viewRole
+function viewRole(){
+    db.query("SELECT * FROM role", function (err, results) {
+        console.table(results);
+        start();
+      });
+};
+//function for handling viewEmp
+function viewEmp(){
+    db.query("SELECT * FROM employee", function (err, results) {
+        console.table(results);
+        start();
+      });
+};
 //function for handling the add department choice
 function addDept() {
   inquirer
@@ -76,8 +91,7 @@ function addDept() {
         type: "number",
         name: "id",
         message: "Type the department id.",
-        //this validation function states that if the input cannot be parsed into a number,
-        //it is not a number it cannot be validated
+        //this validation function states that if the input cannot be parsed into a number, it is not a number and it cannot be validated
         validate: function (input) {
           return !isNaN(parseInt(input)) || "Must be a number";
         },
@@ -91,7 +105,8 @@ function addDept() {
     ])
     .then((data) => {
       db.query(`INSERT INTO department (id, name) VALUES (${data.id},'${data.deptName}')`);
-    })
+      viewDept();
+    });
 }
 
 //function for handling the add role choice
@@ -130,7 +145,8 @@ function addRole() {
   ])
   .then((data) => {
     db.query(`INSERT INTO role (id, title, salary, department_id) VALUES (${data.id},'${data.title}',${data.salary}, ${data.deptID})`);
-  })
+    viewRole();
+  });
 }
 
 //function for handling the add employee choice
@@ -165,17 +181,16 @@ function addEmployee() {
       },
     },
     {
-      type: "number",
+      type: "text",
       name: "managerID",
-      message: "Type the number of their Manager's Employee ID.",
-      validate: function (input) {
-        return !isNaN(parseInt(input)) || "Must be a number";
-      },
+      message: "Type the number of their Manager's Employee ID or NULL.",
+      validate: (input) => !!input || "Cannot be empty",
     },
   ])
   .then((data) => {
     db.query(`INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (${data.id},'${data.first}','${data.last}', ${data.roleID}, ${data.managerID})`);
-  })
+    viewEmp();
+  });
 }
 
 //function for handling the update role choice
@@ -200,7 +215,8 @@ function updateRole() {
   ])
   .then((data) =>{
     db.query(`UPDATE employee SET role_id = ${data.roleID}  WHERE id = ${data.empID}`)
-  })
+    viewEmp();
+  });
 }
 
 start();
